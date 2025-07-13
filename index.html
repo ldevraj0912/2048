@@ -3,44 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 Game</title>
+    <title>Tile Fusion</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-container">
-        <div class="game-message">
-            <p></p>
-            <button class="retry-button">New Game</button>
-        </div>
-        <div class="score-container">0</div>
-        <div class="best-container">0</div>
-        <div class="grid-container">
-            <div class="grid-row">
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
+    <header class="tf-header">
+        <h1 class="tf-title">Tile Fusion</h1>
+        <button id="tf-dark-toggle" aria-label="Toggle dark mode">🌙</button>
+    </header>
+    <main class="tf-main">
+        <section class="tf-info-bar">
+            <div class="tf-score-box">Score: <span id="tf-score">0</span></div>
+            <div class="tf-best-box">Best: <span id="tf-best">0</span></div>
+            <div class="tf-combo-box" id="tf-combo-box" style="display:none;">Combo! +<span id="tf-combo">0</span></div>
+            <button id="tf-restart">Restart</button>
+        </section>
+        <section class="tf-board-wrapper">
+            <div id="tf-board-bg">
+                <!-- Background grid -->
+                <div class="tf-bg-row">
+                    <div class="tf-bg-cell"></div><div class="tf-bg-cell"></div><div class="tf-bg-cell"></div><div class="tf-bg-cell"></div>
+                </div>
+                <div class="tf-bg-row">
+                    <div class="tf-bg-cell"></div><div class="tf-bg-cell"></div><div class="tf-bg-cell"></div><div class="tf-bg-cell"></div>
+                </div>
+                <div class="tf-bg-row">
+                    <div class="tf-bg-cell"></div><div class="tf-bg-cell"></div><div class="tf-bg-cell"></div><div class="tf-bg-cell"></div>
+                </div>
+                <div class="tf-bg-row">
+                    <div class="tf-bg-cell"></div><div class="tf-bg-cell"></div><div class="tf-bg-cell"></div><div class="tf-bg-cell"></div>
+                </div>
             </div>
-            <div class="grid-row">
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
+            <div id="tf-tile-layer"></div>
+            <div id="tf-overlay" class="tf-overlay" style="display:none;">
+                <div id="tf-overlay-message"></div>
+                <button id="tf-overlay-btn">Play Again</button>
             </div>
-            <div class="grid-row">
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-            </div>
-            <div class="grid-row">
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-                <div class="grid-cell"></div>
-            </div>
-        </div>
-    </div>
+        </section>
+    </main>
+    <footer class="tf-footer">
+        <span>Original 2048-inspired puzzle game &copy; 2025</span>
+    </footer>
     <script src="game.js"></script>
 </body>
 </html>

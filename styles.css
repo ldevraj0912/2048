@@ -1,63 +1,204 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  background: #e6eaf0;
+  color: #2b2e3a;
+  transition: background 0.3s, color 0.3s;
 }
-
-body {
-    background: #faf8ef;
-    color: #776e65;
-    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 18px;
+body.tf-dark {
+  background: #181b23;
+  color: #f2f3f8;
 }
-
-.game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 15px;
+.tf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 2rem 0 2rem;
 }
-
-.score-container {
-    font-size: 25px;
-    height: 25px;
-    margin-top: 10px;
-    color: #776e65;
+.tf-title {
+  font-size: 2.5rem;
+  letter-spacing: 0.1em;
+  font-weight: 900;
+  background: linear-gradient(90deg, #54b6e6, #a7e6b5 70%);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
-
-.best-container {
-    font-size: 25px;
-    height: 25px;
-    margin-top: 5px;
-    color: #776e65;
+#tf-dark-toggle {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: inherit;
+  transition: color 0.2s;
 }
-
-.grid-container {
-    position: relative;
-    margin-top: 20px;
-    background: #bbada0;
-    padding: 15px;
-    border-radius: 6px;
-    width: 500px;
-    height: 500px;
+.tf-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 80vh;
 }
-
-.grid-row {
-    height: 25%;
+.tf-info-bar {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
-
-.grid-cell {
-    width: 25%;
-    height: 100%;
-    float: left;
-    border-radius: 3px;
-    background: rgba(238, 228, 218, 0.35);
+.tf-score-box, .tf-best-box {
+  background: rgba(255,255,255,0.7);
+  border-radius: 1rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  min-width: 90px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
-
-.tile {
-    position: absolute;
+body.tf-dark .tf-score-box, body.tf-dark .tf-best-box {
+  background: rgba(44,48,60,0.8);
+}
+#tf-restart {
+  background: linear-gradient(90deg, #54b6e6, #a7e6b5);
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s;
+}
+#tf-restart:hover {
+  background: linear-gradient(90deg, #a7e6b5, #54b6e6);
+}
+.tf-combo-box {
+  background: #ffe066;
+  color: #a77b00;
+  border-radius: 1rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  animation: tf-combo-pop 0.5s;
+}
+@keyframes tf-combo-pop {
+  0% { transform: scale(0.7); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.tf-board-wrapper {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  margin-bottom: 2rem;
+}
+#tf-board-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.tf-bg-row {
+  display: flex;
+  width: 100%;
+  height: 25%;
+}
+.tf-bg-cell {
+  flex: 1;
+  margin: 8px;
+  border-radius: 1.2rem;
+  background: rgba(150, 170, 200, 0.18);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+body.tf-dark .tf-bg-cell {
+  background: rgba(44, 48, 60, 0.45);
+}
+#tf-tile-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.tf-tile {
+  position: absolute;
+  width: 88px;
+  height: 88px;
+  border-radius: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #2b2e3a;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 4px 18px rgba(84,182,230,0.08);
+  transition: transform 0.22s cubic-bezier(.68,-0.55,.27,1.55), background 0.18s;
+  animation: tf-tile-spawn 0.23s;
+  user-select: none;
+}
+body.tf-dark .tf-tile {
+  background: rgba(44,48,60,0.92);
+  color: #f2f3f8;
+}
+.tf-tile[data-value="2"] { background: linear-gradient(135deg, #e0f7fa 60%, #b2ebf2 100%); color: #2b2e3a; }
+.tf-tile[data-value="4"] { background: linear-gradient(135deg, #ffe0b2 60%, #ffd54f 100%); color: #2b2e3a; }
+.tf-tile[data-value="8"] { background: linear-gradient(135deg, #ffd1dc 60%, #ffb6b9 100%); color: #a33e4c; }
+.tf-tile[data-value="16"] { background: linear-gradient(135deg, #e1bee7 60%, #b39ddb 100%); color: #4527a0; }
+.tf-tile[data-value="32"] { background: linear-gradient(135deg, #b2dfdb 60%, #4dd0e1 100%); color: #006064; }
+.tf-tile[data-value="64"] { background: linear-gradient(135deg, #c8e6c9 60%, #81c784 100%); color: #1b5e20; }
+.tf-tile[data-value="128"] { background: linear-gradient(135deg, #fff59d 60%, #fbc02d 100%); color: #7c6500; }
+.tf-tile[data-value="256"] { background: linear-gradient(135deg, #ffccbc 60%, #ff8a65 100%); color: #a33e00; }
+.tf-tile[data-value="512"] { background: linear-gradient(135deg, #b3e5fc 60%, #0288d1 100%); color: #0d47a1; }
+.tf-tile[data-value="1024"] { background: linear-gradient(135deg, #d7ccc8 60%, #a1887f 100%); color: #4e342e; }
+.tf-tile[data-value="2048"] { background: linear-gradient(135deg, #ffe082 60%, #ffd600 100%); color: #a77b00; }
+@keyframes tf-tile-spawn {
+  0% { transform: scale(0.7); opacity: 0.5; }
+  80% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.tf-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(246, 247, 255, 0.85);
+  z-index: 10;
+  border-radius: 1.2rem;
+  font-size: 2.2rem;
+  color: #2b2e3a;
+  font-weight: 800;
+  transition: background 0.3s;
+}
+body.tf-dark .tf-overlay {
+  background: rgba(34, 36, 46, 0.92);
+  color: #f2f3f8;
+}
+#tf-overlay-btn {
+  margin-top: 1.2rem;
+  padding: 0.6rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 1rem;
+  background: linear-gradient(90deg, #54b6e6, #a7e6b5);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s;
+}
+#tf-overlay-btn:hover {
+  background: linear-gradient(90deg, #a7e6b5, #54b6e6);
+}
+.tf-footer {
+  text-align: center;
+  margin: 2rem 0 1rem 0;
+  font-size: 1rem;
+  color: #aaa;
+}
     width: 106.25px;
     height: 106.25px;
     background: #eee4da;
